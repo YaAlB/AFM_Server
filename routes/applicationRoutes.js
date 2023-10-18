@@ -7,8 +7,8 @@ router.use(verifyJWT)
 
 router.route('/')
     .get(applicationsController.getAllApplications)
-    .post(applicationsController.createNewApplications)
-    .patch(applicationsController.updateApplications)
-    .delete(applicationsController.deleteApplications)
+    .post(applicationsController.createNewApplication)
+    .patch(applicationsController.updateApplication)
+    .delete(applicationsController.deleteApplication)
 
 module.exports = router
