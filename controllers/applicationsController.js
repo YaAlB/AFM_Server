@@ -1,38 +1,35 @@
 const Application = require('../models/Application')
-const User = require('../models/User')
+
 const asyncHandler = require('express-async-handler')
 
 // @desc Get all applications 
 // @route GET /applications
 // @access Private
 const getAllApplications = asyncHandler(async (req, res) => {
-    // Get all applications from MongoDB
-    const applications = await Application.find().lean()
+    const { id } = req
+
+    // Get all applications from MongoDB by user Id
+    const applications = await Application.find({userId: id}).lean()
 
     // If no application 
     if (!applications?.length) {
         return res.status(400).json({ message: 'No applications found' })
     }
 
-    // Add username to each application before sending the response 
-    // See Promise.all with map() here: https://youtu.be/4lqJBBEpjRE 
-    // You could also do this with a for...of loop
-    const applicationsWithUser = await Promise.all(applications.map(async (application) => {
-        const user = await User.findById(application.user).lean().exec()
-        return { ...application, username: user.username }
-    }))
-
-    res.json(applicationsWithUser)
+    res.json(applications)
 })
 
 // @desc Create new application
 // @route POST /applications
 // @access Private
 const createNewApplication = asyncHandler(async (req, res) => {
-    const { user, title, text } = req.body
+    const { title, financeType, newUsedType, assetCost, deposit, financeAmount, companyName, 
+        tradingName, ABN, fullName, address, addressState, postCode, licence, cash, propertiesValue, 
+        vehiclesAmount, sharesTermDeposits, otherMortgage, creditCard, otherLiabilities } = req.body
 
     // Confirm data
-    if (!user || !title || !text) {
+    if (!title || !financeType || !newUsedType || isNaN(assetCost) || isNaN(deposit) || isNaN(financeAmount) || !companyName || 
+        !tradingName || isNaN(ABN) || !fullName || !address || !addressState || isNaN(postCode) || isNaN(licence) || isNaN(cash) ) {
         return res.status(400).json({ message: 'All fields are required' })
     }
 
@@ -43,8 +40,13 @@ const createNewApplication = asyncHandler(async (req, res) => {
         return res.status(409).json({ message: 'Duplicate application title' })
     }
 
-    // Create and store the new user 
-    const application = await Application.create({ user, title, text })
+    const applicationObject = { userId: req.id, title, financeType, newUsedType, assetCost, deposit, 
+        financeAmount, companyName, tradingName, ABN, fullName, address, addressState, postCode, licence, cash, 
+        propertiesValue, vehiclesAmount, sharesTermDeposits, otherMortgage, creditCard, 
+        otherLiabilities }
+
+    // Create and store the new application 
+    const application = await Application.create(applicationObject)
 
     if (application) { // Created 
         return res.status(201).json({ message: 'New application created' })
@@ -58,33 +60,55 @@ const createNewApplication = asyncHandler(async (req, res) => {
 // @route PATCH /applications
 // @access Private
 const updateApplication = asyncHandler(async (req, res) => {
-    const { id, user, title, text, completed } = req.body
+    const { id, title, financeType, newUsedType, assetCost, deposit, financeAmount, companyName, 
+        tradingName, ABN, fullName, address, addressState, postCode, licence, cash, propertiesValue, 
+        vehiclesAmount, sharesTermDeposits, otherMortgage, creditCard, otherLiabilities } = req.body
+
+        
 
     // Confirm data
-    if (!id || !user || !title || !text || typeof completed !== 'boolean') {
+    if (!id || !financeType || !newUsedType || isNaN(assetCost) || isNaN(deposit) || isNaN(financeAmount) || !companyName || 
+    !tradingName || isNaN(ABN) || !fullName || !address || !addressState || isNaN(postCode) || isNaN(licence) || isNaN(cash)) {
         return res.status(400).json({ message: 'All fields are required' })
     }
 
     // Confirm application exists to update
-    const application = await Note.findById(id).exec()
+    const application = await Application.findById(id).exec()
 
     if (!application) {
-        return res.status(400).json({ message: 'Aapplication not found' })
+        return res.status(400).json({ message: 'Application not found' })
     }
 
     // Check for duplicate title
-    const duplicate = await application.findOne({ title }).lean().exec()
+    const duplicate = await Application.findOne({ title }).lean().exec()
 
     // Allow renaming of the original application 
     if (duplicate && duplicate?._id.toString() !== id) {
         return res.status(409).json({ message: 'Duplicate application title' })
     }
 
-    application.user = user
     application.title = title
-    application.text = text
-    application.completed = completed
-
+    application.financeType = { value: financeType.value, label: financeType.label }
+    application.newUsedType = { value: newUsedType.value, label: newUsedType.label }
+    application.assetCost = assetCost
+    application.deposit = deposit
+    application.financeAmount = financeAmount
+    application.companyName = companyName
+    application.tradingName = tradingName
+    application.ABN = ABN
+    application.fullName = fullName
+    application.address = address
+    application.addressState = { value: addressState.value, label: addressState.label }
+    application.postCode = postCode
+    application.licence = licence
+    application.cash = cash
+    application.propertiesValue = propertiesValue
+    application.vehiclesAmount = vehiclesAmount
+    application.sharesTermDeposits = sharesTermDeposits
+    application.otherMortgage = otherMortgage
+    application.creditCard = creditCard
+    application.otherLiabilities = otherLiabilities
+    
     const updatedApplication = await application.save()
 
     res.json(`'${updatedApplication.title}' updated`)
