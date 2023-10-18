@@ -1,0 +1,273 @@
+{
+	"info": {
+		"_postman_id": "79023853-331b-4593-9875-35843c797dfa",
+		"name": "AFM Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "14145365"
+	},
+	"item": [
+		{
+			"name": "registerUser",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"email\": \"yassinbehery10@gmail.com\",\n    \"username\": \"Yaz4\",\n    \"password\": \"test123\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5500/auth/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5500",
+					"path": [
+						"auth",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "authUser",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{   \n    \"email\": \"yassinbehery@gmail.com\",\n    \"username\": \"Yaz\",\n    \"password\": \"test123\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5500/auth",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5500",
+					"path": [
+						"auth"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "refreshToken",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true,
+				"followAuthorizationHeader": false,
+				"followRedirects": true,
+				"followOriginalHttpMethod": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"username\": \"Yaz\",\n    \"password\": \"test123\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5500/auth/refresh",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5500",
+					"path": [
+						"auth",
+						"refresh"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "authLogout",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"id\": \"65221cb430cef0f144f19202\",\n        \"username\": \"Yaz\",\n        \"roles\": [\n            \"Individual\"\n        ],\n        \"active\": true\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:5500/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5500",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "createNewApplication",
+			"protocolProfileBehavior": {
+				"disabledSystemHeaders": {
+					"content-type": true
+				}
+			},
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJpZCI6IjY1MjUzNTM0ODI5MDlkMGVhYjQ0NzQwZCJ9LCJpYXQiOjE2OTc1OTE4OTQsImV4cCI6MTY5NzU5Mjc5NH0.c5Lsqve1Ii0Mn-XlY_FA99xis8KCPJzXtG2qUo5D4TY",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"title\": \"2014 Bmw x1\",\n  \"financeType\": { \n      \"value\": \"financeLease\", \n      \"label\": \"Finance Lease\" \n    },\n  \"newUsedType\": { \n      \"value\": \"new\", \n      \"label\": \"New\" \n    },\n  \"assetCost\": 20000,\n  \"deposit\": 10000,\n  \"financeAmount\": 10000,\n  \"companyName\": \"Yaz123\",\n  \"tradingName\": \"yaz 122\",\n  \"ABN\": 123456789,\n  \"fullName\": \"Yaz Ali\",\n  \"address\": \"245 Road\",\n  \"addressState\": { \n      \"value\": \"newSouthWales\", \n      \"label\": \"New South Wales\" \n    },\n  \"postCode\": 3000,\n  \"licence\": 4123123,\n  \"cash\": 20000,\n  \"propertiesValue\": 0,\n  \"vehiclesAmount\": 0,\n  \"sharesTermDeposits\": 0,\n  \"otherMortgage\": 0,\n  \"creditCard\": 2000,\n  \"otherLiabilities\": 0\n}"
+				},
+				"url": {
+					"raw": "http://localhost:5500/applications",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5500",
+					"path": [
+						"applications"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getApplications",
+			"protocolProfileBehavior": {
+				"followAuthorizationHeader": false,
+				"followRedirects": true,
+				"followOriginalHttpMethod": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJpZCI6IjY1MjUzNTM0ODI5MDlkMGVhYjQ0NzQwZCJ9LCJpYXQiOjE2OTc1OTE4OTQsImV4cCI6MTY5NzU5Mjc5NH0.c5Lsqve1Ii0Mn-XlY_FA99xis8KCPJzXtG2qUo5D4TY",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5500/applications",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5500",
+					"path": [
+						"applications"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getUser",
+			"protocolProfileBehavior": {
+				"followAuthorizationHeader": false,
+				"followRedirects": true,
+				"followOriginalHttpMethod": false
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Authorization",
+						"value": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJVc2VySW5mbyI6eyJpZCI6IjY1MjUzNTM0ODI5MDlkMGVhYjQ0NzQwZCJ9LCJpYXQiOjE2OTc2MDE2NDIsImV4cCI6MTY5NzYwMjU0Mn0.CeKHCwoWzCTw7BIxMtnoj27MGvqfp-fiiGTfyRK-Ewg",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:5500/users",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "5500",
+					"path": [
+						"users"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
