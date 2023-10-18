@@ -1,59 +1,100 @@
 const mongoose = require('mongoose')
-const AutoIncrement = require('mongoose-sequence')(mongoose)
 
 const applicationSchema = new mongoose.Schema(
     {
-        user: {
+        userId: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
             ref: 'User'
         },
-        salesPerson: {
+        financeType: {
+            type: { 'value': String,  'label': String },
+            default: "Lease"
+        },
+        newUsedType: {
+            type: { 'value': String,  'label': String },
+            default: "New"
+        },
+        title: {
             type: String,
             required: true
         },
-        firstName: {
+        assetCost: {
+            type: Number,
+            required: true
+        },
+        deposit: {
+            type: Number,
+            required: true
+        },
+        financeAmount: {
+            type: Number,
+            required: true
+        },
+        companyName: {
             type: String,
             required: true
         },
-        lastName: {
+        tradingName: {
             type: String,
             required: true
         },
-        birthDate: {
-            type: Date,
-            required: true
-        },
-        mobileNumber: {
+        ABN: {
             type: Number,
             required: true
         },
-        email: {
+        fullName: {
+            type: String,
+            required: true
+        },
+        address: {
+            type: String,
+            required: true
+        },
+        addressState: {
+            type: { 'value': String,  'label': String },
+            required: true
+        },
+        postCode: {
             type: Number,
             required: true
         },
-        dependentsNumber: {
+        licence: {
             type: Number,
             required: true
         },
-        timeAtResident: {
+        cash: {
             type: Number,
             required: true
         },
-        completed: {
-            type: Boolean,
-            default: false
-        }
+        propertiesValue: {
+            type: Number,
+            required: false
+        },
+        vehiclesAmount: {
+            type: Number,
+            required: false
+        },
+        sharesTermDeposits: {
+            type: Number,
+            required: false
+        },
+        otherMortgage: {
+            type: Number,
+            required: false
+        },
+        creditCard: {
+            type: Number,
+            required: false
+        },
+        otherLiabilities: {
+            type: Number,
+            required: false
+        },
     },
     {
         timestamps: true
     }
 )
-
-applicationSchema.plugin(AutoIncrement, {
-    inc_field: 'ticket',
-    id: 'ticketNums',
-    start_seq: 500
-})
 
 module.exports = mongoose.model('Application', applicationSchema)
