@@ -64,11 +64,9 @@ const updateApplication = asyncHandler(async (req, res) => {
         tradingName, ABN, fullName, address, addressState, postCode, licence, cash, propertiesValue, 
         vehiclesAmount, sharesTermDeposits, homeMortgage, otherMortgage, creditCard, otherLiabilities } = req.body
 
-        
-
     // Confirm data
-    if (!id || !financeType || !newUsedType || isNaN(assetCost) || isNaN(deposit) || isNaN(financeAmount) || !companyName || 
-    !tradingName || isNaN(ABN) || !fullName || !address || !addressState || isNaN(postCode) || isNaN(licence) || isNaN(cash)) {
+    if (!title || !financeType || !newUsedType || isNaN(assetCost) || isNaN(deposit) || isNaN(financeAmount) || !companyName || 
+    !tradingName || isNaN(ABN) || !fullName || !address || !addressState || isNaN(postCode) || isNaN(licence) || isNaN(cash) ) {
         return res.status(400).json({ message: 'All fields are required' })
     }
 
@@ -77,14 +75,6 @@ const updateApplication = asyncHandler(async (req, res) => {
 
     if (!application) {
         return res.status(400).json({ message: 'Application not found' })
-    }
-
-    // Check for duplicate title
-    const duplicate = await Application.findOne({ title }).lean().exec()
-
-    // Allow renaming of the original application 
-    if (duplicate && duplicate?._id.toString() !== id) {
-        return res.status(409).json({ message: 'Duplicate application title' })
     }
 
     application.title = title

@@ -11,7 +11,6 @@ const login = asyncHandler(async (req, res) => {
     const { email, password } = req.body
 
     if (!email || !password) {
-        console.log(email, password)
         return res.status(400).json({ message: 'All fields are required' })
     }
 
@@ -71,7 +70,7 @@ const registerUser = asyncHandler(async (req, res) => {
 // @access Public - because access token has expired
 const refresh = (req, res) => {
     const cookies = req.cookies
-    console.log('cookies: ', cookies)
+
     if (!cookies?.jwt) return res.status(401).json({ message: 'Unauthorized' })
 
     const refreshToken = cookies.jwt
@@ -82,7 +81,7 @@ const refresh = (req, res) => {
         asyncHandler(async (err, decoded) => {
             if (err) return res.status(403).json({ message: 'Forbidden' })
 
-            const foundUser = await User.findOne({ username: decoded.username }).exec()
+            const foundUser = await User.findOne({ _id: decoded.id }).exec()
 
             if (!foundUser) return res.status(401).json({ message: 'Unauthorized' })
 

@@ -11,8 +11,6 @@ const getUser = asyncHandler(async (req, res) => {
     // Get user data from MongoDB
     const user = await User.find({_id: id}).select('-password').lean()
 
-    console.log(user)
-    console.log(id)
     // If no users 
     if (!user?.length) {
         return res.status(400).json({ message: 'No user found' })

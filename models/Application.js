@@ -83,6 +83,10 @@ const applicationSchema = new mongoose.Schema(
             type: Number,
             required: false
         },
+        homeMortgage: {
+            type: Number,
+            required: false
+        },
         creditCard: {
             type: Number,
             required: false
