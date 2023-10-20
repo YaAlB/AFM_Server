@@ -25,7 +25,7 @@ const getAllApplications = asyncHandler(async (req, res) => {
 const createNewApplication = asyncHandler(async (req, res) => {
     const { title, financeType, newUsedType, assetCost, deposit, financeAmount, companyName, 
         tradingName, ABN, fullName, address, addressState, postCode, licence, cash, propertiesValue, 
-        vehiclesAmount, sharesTermDeposits, otherMortgage, creditCard, otherLiabilities } = req.body
+        vehiclesAmount, sharesTermDeposits, homeMortgage, otherMortgage, creditCard, otherLiabilities } = req.body
 
     // Confirm data
     if (!title || !financeType || !newUsedType || isNaN(assetCost) || isNaN(deposit) || isNaN(financeAmount) || !companyName || 
@@ -42,7 +42,7 @@ const createNewApplication = asyncHandler(async (req, res) => {
 
     const applicationObject = { userId: req.id, title, financeType, newUsedType, assetCost, deposit, 
         financeAmount, companyName, tradingName, ABN, fullName, address, addressState, postCode, licence, cash, 
-        propertiesValue, vehiclesAmount, sharesTermDeposits, otherMortgage, creditCard, 
+        propertiesValue, vehiclesAmount, sharesTermDeposits, homeMortgage, otherMortgage, creditCard, 
         otherLiabilities }
 
     // Create and store the new application 
@@ -62,7 +62,7 @@ const createNewApplication = asyncHandler(async (req, res) => {
 const updateApplication = asyncHandler(async (req, res) => {
     const { id, title, financeType, newUsedType, assetCost, deposit, financeAmount, companyName, 
         tradingName, ABN, fullName, address, addressState, postCode, licence, cash, propertiesValue, 
-        vehiclesAmount, sharesTermDeposits, otherMortgage, creditCard, otherLiabilities } = req.body
+        vehiclesAmount, sharesTermDeposits, homeMortgage, otherMortgage, creditCard, otherLiabilities } = req.body
 
         
 
@@ -105,6 +105,7 @@ const updateApplication = asyncHandler(async (req, res) => {
     application.propertiesValue = propertiesValue
     application.vehiclesAmount = vehiclesAmount
     application.sharesTermDeposits = sharesTermDeposits
+    application.homeMortgage = homeMortgage
     application.otherMortgage = otherMortgage
     application.creditCard = creditCard
     application.otherLiabilities = otherLiabilities
